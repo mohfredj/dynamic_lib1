@@ -1,0 +1,12 @@
+# proj1_lib_vs_ux
+cmake_minimum_required(VERSION 2.8)
+#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/out/library)
+
+include_directories(include)
+file(GLOB lib_headers include/*.hpp)
+file(GLOB lib_src src/*.cpp)
+
+add_library(multi_lib STATIC ${lib_headers} ${lib_src})
+SET_TARGET_PROPERTIES(multi_lib PROPERTIES PREFIX "")
+set_target_properties(multi_lib PROPERTIES
+         LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)

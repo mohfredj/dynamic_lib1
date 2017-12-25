@@ -1,0 +1,32 @@
+# proj1_lib_vs_ux
+
+cmake_minimum_required(VERSION 2.8)
+#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/out/library)
+
+include_directories(include ../add_lib/include ../multi_lib/include)
+file(GLOB lib_headers include/*.hpp)
+file(GLOB lib_src src/*.cpp)
+
+
+add_library(lib_math_add SHARED IMPORTED)
+IF(WIN32)
+        set_target_properties(lib_math_add PROPERTIES IMPORTED_LOCATION ../add_lib/add_lib.dll)
+ELSE(WIN32)
+        set_target_properties(lib_math_add PROPERTIES IMPORTED_LOCATION ../add_lib/add_lib.dll)
+ENDIF(WIN32)
+add_dependencies(lib_math_add lib_math1)
+
+add_library(lib_math_multi SHARED IMPORTED)
+IF(WIN32)
+        set_target_properties(lib_math_multi PROPERTIES IMPORTED_LOCATION ../add_lib/multi_lib.dll)
+ELSE(WIN32)
+        set_target_properties(lib_math_multi PROPERTIES IMPORTED_LOCATION ../add_lib/multi_lib.dll)
+ENDIF(WIN32)
+add_dependencies(lib_math_multi lib_math2)
+
+add_library(main_math_lib SHARED ${lib_headers} ${lib_src})
+target_link_libraries (main_math_lib  lib_math_multi lib_math_add)
+
+SET_TARGET_PROPERTIES(main_math_lib PROPERTIES PREFIX "")
+set_target_properties(main_math_lib PROPERTIES
+         LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
